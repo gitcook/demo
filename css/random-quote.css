@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #333;
+    font-family: 'Architects Daughter', cursive;
+}
+
+div {
+    /*position: relative;*/
+}
+
+.quote-box {
+    display: table;
+    /*position: relative;*/
+    margin: 10% auto auto;
+    padding: 40px 50px;
+    border-radius: 3px;
+    width: 450px;
+    /*height: auto;*/
+    background-color: #fff;
+}
+
+.quote-text {
+    width: 450px;
+    height:auto;
+    text-align: center;
+    font-size: 1.3em;
+    font-family: 'Architects Daughter', cursive;
+}
+
+.quote-author {
+    width: 450px;
+    text-align: right;
+    font-size: 1.3em;
+}
+
+.buttons {
+    width: 450px;
+    margin: 30px auto;
+}
+
+.button {
+    padding: 8px 13px;
+    border: none;
+    height: 38px;
+    border-radius: 3px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+#tweet-quote, #facebook-quote {
+    float: left;
+    margin-right: 8px;
+    /*width: 50px;*/
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#facebook-quote {
+    padding: 8px 17px;
+}
+
+#new-quote {
+    float: right;
+    font-family: 'Architects Daughter', cursive;
+}
+
+.footer {
+    width: 450px;
+    margin: 15px auto;
+    text-align: center;
+    font-size: 1em;
+    color: #fff;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #fff;
+}
