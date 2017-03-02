@@ -12,11 +12,15 @@ body {
     color: #fff;
 }
 
+h1 {
+    font-size: 1em;
+}
+
 .main {
     /*width: 500px;*/
     margin: 10% auto;
     text-align: center;
-    font-size: 28px;
+    font-size: 5em;
     color: #fff;
 }
 
