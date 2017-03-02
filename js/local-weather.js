@@ -35,7 +35,7 @@ function getWeather(city) {
             case 'Snow':
                 icon = 'wi-day-snow';
                 break;
-        };
+        }
         $('.icon i:first').addClass(icon);
     });
 }
