@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task01</title>
+    <style>
+        body {
+            padding: 40px;
+            /*font-family: Arial, "Microsoft YaHei", "微软雅黑";*/
+            font: 16px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+        }
+        .main {
+            margin: 20px auto;
+            width: 450px;
+        }
+        #button {
+            padding: 2px 8px;
+            border-radius: 2px;
+            background-color: #333;
+            color: #fff;
+        }
+        div {
+            margin-top: 15px;
+        }
+        span {
+            color: red;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <label>请输入北京今天的天气质量：<input type="text" id="api-input"></label>
+    <button id="button">确认</button>
+    <div>
+        您输入的是：
+        <span id="api-display">尚无录入</span>
+    </div>
+</div>
+    <script>
+        (function() {
+            /*
+            在注释下方写下代码
+            给按钮button绑定一个点击事件
+            在事件处理函数中
+            获取aqi-input输入的值，并显示在aqi-display中
+            */
+           var input = document.getElementById('api-input');
+           var button = document.getElementById('button');
+
+           if (!document.attactEvent) {
+                button.addEventListener('click', showMes, false);
+            }
+            else {
+                button.attactEvent('onclick', showMes);
+            }
+
+            document.onkeydown = function(ev) {
+                var event = ev || window.event;
+
+                if (event.keyCode === 13) showMes();
+            };
+
+           function showMes() {
+                var span = document.getElementById('api-display');
+                if (input.value) {
+                    span.innerHTML = input.value;
+                }
+           }
+        })();
+    </script>
+</body>
+</html>
