@@ -40,6 +40,8 @@
         <span id="api-display">尚无录入</span>
     </div>
     <div class="city">
+        <h3>所有城市列表：</h3>
+        <ul id="city-list"></ul>
         <h3>污染城市列表：</h3>
         <ul id="api-list"></ul>
     </div>
@@ -90,6 +92,11 @@
                 ["福州", 15]
             ];
 
+            var cityList = document.getElementById('city-list');
+            apiData.forEach(function(val) {
+                return cityList.innerHTML += "<li>" + val + "</li>";
+            });
+
             apiData.sort(function(a, b) {
                 return b[1] - a[1];
             });
@@ -101,6 +108,7 @@
             for (var i = 0; i < newArr.length; i ++) {
                 ul.innerHTML += "<li>第" + (i + 1) + "名: " + newArr[i][0] + ", pm2.5为:" + newArr[i][1] + "</li>";
             }
+
         })();
     </script>
 </body>
