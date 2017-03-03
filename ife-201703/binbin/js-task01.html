@@ -26,6 +26,9 @@
             color: red;
             font-weight: 500;
         }
+        li {
+            list-style: none;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +39,10 @@
         您输入的是：
         <span id="api-display">尚无录入</span>
     </div>
+    <div class="city">
+        <h3>污染城市列表：</h3>
+        <ul id="api-list"></ul>
+    </div>
 </div>
     <script>
         (function() {
@@ -45,14 +52,14 @@
             在事件处理函数中
             获取aqi-input输入的值，并显示在aqi-display中
             */
-           var input = document.getElementById('api-input');
-           var button = document.getElementById('button');
+            var input = document.getElementById('api-input');
+            var button = document.getElementById('button');
 
-           if (!document.attactEvent) {
+            if (!document.attachEvent) {
                 button.addEventListener('click', showMes, false);
             }
             else {
-                button.attactEvent('onclick', showMes);
+                button.attachEvent('onclick', showMes);
             }
 
             document.onkeydown = function(ev) {
@@ -61,12 +68,39 @@
                 if (event.keyCode === 13) showMes();
             };
 
-           function showMes() {
+            function showMes() {
                 var span = document.getElementById('api-display');
                 if (input.value) {
                     span.innerHTML = input.value;
                 }
            }
+
+           /*
+           在注释下方编写代码
+           遍历读取aqiData中各个城市的数据
+           将空气质量指数大于60的城市显示到aqi-list的列表中
+           */
+            var apiData = [
+                ["北京", 90],
+                ["上海", 85],
+                ["广州", 55],
+                ["成都", 122],
+                ["西安", 155],
+                ["三亚", 48],
+                ["福州", 15]
+            ];
+
+            apiData.sort(function(a, b) {
+                return b[1] - a[1];
+            });
+            var ul = document.getElementById('api-list');
+            var newArr = apiData.filter(function(val){
+                return val[1] > 60;
+            });
+
+            for (var i = 0; i < newArr.length; i ++) {
+                ul.innerHTML += "<li>第" + (i + 1) + "名: " + newArr[i][0] + ", pm2.5为:" + newArr[i][1] + "</li>";
+            }
         })();
     </script>
 </body>
