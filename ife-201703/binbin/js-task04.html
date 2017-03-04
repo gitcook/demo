@@ -11,8 +11,9 @@
             margin-left: 15px;
             background-color: #fff;
             border-radius: 3px;
+            cursor: pointer;
         }
-        .main {
+        #main {
             display: table;
             margin: 0 auto;
         }
@@ -31,12 +32,13 @@
             background-color: red;
             text-align: center;
             line-height: 30px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-<div class="main">
-    <input type="text" placeholder="请输入数字，以逗号分隔！" size=30>
+<div id="main">
+    <input type="text" placeholder="请输入数字！" size=30>
     <button id="left-in">左侧入</button>
     <button id="right-in">右侧入</button>
     <button id="left-out">左侧出</button>
@@ -45,65 +47,91 @@
 </div>
 <script type="text/javascript">
     var input = document.getElementsByTagName('input')[0];
-    input.focus();
+    var oUl = document.getElementById('num');
 
-    input.onchange = function (event) {
-        var ul = document.getElementById('num');
-        var ulChid = ul.childNodes;
-        var data = getData();
-
-        document.getElementById('left-in').onclick = leftIn;
-
-        document.getElementById('right-in').onclick = rightIn;
-
-        document.getElementById('left-out').onclick = function() {
-            ulChid.length >0 && ul.removeChild(ulChid[0]);
-        };
-
-        document.getElementById('right-out').onclick = function() {
-            ulChid.length >0 && ul.removeChild(ulChid[ulChid.length - 1]);
-
-
-        var oLi = ul.childNodes;
-        console.log(oLi);
-        for (var i = 0; i < oLi.length; i++) {
-            oLi[i].addEventListener('click', fn, false);
+    // 事件代理
+    document.getElementById('main').onclick = function () {
+        var e = arguments[0] || window.event;
+        var target = e.target || e.srcElement;
+        if (target.nodeName.toLowerCase() === 'button') {
+            if (target.id === 'left-in') {
+                addNum(true);
+            }
+            if (target.id === 'right-in') {
+                addNum(false);
+            }
+            if (target.id === 'left-out') {
+                delNum(true);
+            }
+            if (target.id === 'right-out') {
+                delNum(false);
+            }
         }
-
-        function fn() {
-            console.log(this);
-            this.style.display = none;
+        else if (target.nodeName.toLowerCase() === 'li') {
+            oUl.removeChild(target);
         }
     };
 
-        function getData(){
-            return event.target.value.replace(/\s+/g, '').split(',').filter(function(val) {
-                return !/\D+/.test(val) && val !== '';// 去除非数字和空元素
-            });
+    // 判断输入是否为数字
+    function isNum(data) {
+        var bool = /^[\d\.]+$/.test(data);// 纯数字或小数
+        if (bool) {
+            return true;
         }
+        else if (!data){
+            alert("输入不能为空!");
+            return false;
+        }
+        else {
+            alert("请输入纯数字!");
+            return false;
+        }
+    }
 
-        function leftIn() {
-            ul.innerHTML = '';
-            for (var i = 0; i < data.length; i++) {
-                var li = document.createElement('li');
-                li.innerHTML = data[i];
-                ul.appendChild(li);
+    // 增加数字，根据switch的值判断left和right
+    function addNum(positive) {
+        var inputNum = input.value.replace(/\s+/g, ''); // 提前赋值会为空
+        if (!isNum(inputNum)) return false; // inputNum 不是数字或者为空函数到此结束
+        var li = document.createElement('li');
+        li.innerHTML = inputNum;
+        if (hasNum(inputNum, oUl)) {;
+            if (positive) {
+                oUl.insertBefore(li, oUl.childNodes[0]);
+            }
+            else {
+                oUl.appendChild(li);
             }
         }
+        else {
+            alert("数字已存在!");
+        }
+    }
 
-        function rightIn() {
-            ul.innerHTML = '';
-            for (var i = data.length - 1; i >= 0; i--) {
-                var li = document.createElement('li');
-                li.innerHTML = data[i];
-                ul.appendChild(li);
+    // 删除数字
+    /**
+     * 删除数字
+     * @param  {boolean} positive 确定从左右删除
+     * @return {[type]}          [description]
+     */
+    function delNum(positive) {
+        if (oUl.childNodes.length) {
+            if (positive) {
+                oUl.removeChild(oUl.firstChild);
+            }
+            else {
+                oUl.removeChild(oUl.lastChild);
             }
         }
+    }
 
-
-
-    };
-
+    // 判断数字是否存在，存在就不加入
+    function hasNum(num, ele) {
+        var child = ele.childNodes;
+        for (var i = 0; i < child.length; i ++) {
+            if (child[i].innerHTML === num) return false; // 存在
+        }
+        return true; // 不存在
+    }
 </script>
 </body>
 </html>
