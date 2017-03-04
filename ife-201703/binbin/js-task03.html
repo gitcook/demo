@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task03</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font: 16px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+        }
+        h3 {
+            margin: 5px 0;
+        }
+        ul {
+            display: inline-block;
+            margin: 20px;
+        }
+        #sort-btn {
+            display: block;
+            margin-left: 200px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            width: 50px;
+        }
+        li {
+            list-style: none;
+        }
+        #resort {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<ul id="source">
+    <h3>城市空气质量列表</h3>
+    <li>北京空气质量:<b>90</b></li>
+    <li>上海空气质量:<b>70</b></li>
+    <li>天津空气质量:<b>80</b></li>
+    <li>广州空气质量:<b>50</b></li>
+    <li>深圳空气质量:<b>40</b></li>
+    <li>福州空气质量:<b>32</b></li>
+    <li>成都空气质量:<b>90</b></li>
+</ul>
+<ul id="resort">
+    <h3>排序后</h3>
+</ul>
+<button id="sort-btn">排序</button>
+<script type="text/javascript">
+
+    /**
+     * getData方法
+     * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+     * 返回一个数组，格式见函数中示例
+     */
+    function getData() {
+        var oLi = document.getElementById('source').getElementsByTagName('li');
+        var data = [];
+
+        for (var i = 0; i < oLi.length; i++) {
+            data.push(oLi[i].textContent.split(':'));
+        }
+        return data;
+    }
+
+    /**
+ * sortData
+ * 按空气质量对data进行从小到大的排序
+ * 返回一个排序后的数组
+ */
+    function sortData(data) {
+        return data.sort(function(a, b) {
+            return a[1] - b[1];
+        });
+    }
+
+    /**
+     * render
+     * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+     * 格式见ul中的注释的部分
+     */
+    function render(data) {
+        var numArr = ['一', '二', '三', '四', '五', '六', '七'];
+        var oUi = document.getElementById('resort');
+        for (var j = 0, len = data.length; j < len; j++) {
+            var li = document.createElement('li');
+            li.innerHTML = "第" + numArr[j] + "名：" + data[j][0] + "：<b>" + data[j][1] + "</b>";
+            oUi.appendChild(li);
+        }
+        oUi.style.display = "inline-block";
+    }
+
+    function btnHandle() {
+        var aqiData = getData();
+        aqiData = sortData(aqiData);
+        aqiData = render(aqiData);
+    }
+
+    function init() {
+        var btn = document.getElementById('sort-btn');
+        var bool = true;
+        btn.onclick = function () {
+            if (bool) {
+                btnHandle();
+                bool = false;
+            }
+        };
+/*        btn.onclick = function () {
+            btnHandle();
+            btn.disabled = "disabled";
+        };*/
+    }
+
+    init();
+
+</script>
+</body>
+</html>
