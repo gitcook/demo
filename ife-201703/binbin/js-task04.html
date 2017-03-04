@@ -34,6 +34,9 @@
             line-height: 30px;
             cursor: pointer;
         }
+        p {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -44,13 +47,17 @@
     <button id="left-out">左侧出</button>
     <button id="right-out">右侧出</button>
     <ul id="num"></ul>
+    <p></p>
 </div>
 <script type="text/javascript">
+    var main = document.getElementById('main');
     var input = document.getElementsByTagName('input')[0];
     var oUl = document.getElementById('num');
 
+    var p = document.getElementsByTagName('p')[0]; // alert提示改为显示在网页上
+
     // 事件代理
-    document.getElementById('main').onclick = function () {
+    main.onclick = function () {
         var e = arguments[0] || window.event;
         var target = e.target || e.srcElement;
         if (target.nodeName.toLowerCase() === 'button') {
@@ -79,11 +86,13 @@
             return true;
         }
         else if (!data){
-            alert("输入不能为空!");
+            // alert("输入不能为空!");
+            p.innerHTML = '输入不能为空!';
             return false;
         }
         else {
-            alert("请输入纯数字!");
+            // alert("请输入纯数字!");
+            p.innerHTML = '请输入纯数字!';
             return false;
         }
     }
@@ -92,19 +101,22 @@
     function addNum(positive) {
         var inputNum = input.value.replace(/\s+/g, ''); // 提前赋值会为空
         if (!isNum(inputNum)) return false; // inputNum 不是数字或者为空函数到此结束
+        if (!hasNum(inputNum, oUl)) {
+            // alert("数字已存在!");
+            p.innerHTML = '数字已存在!';
+            return false;
+        }
+
         var li = document.createElement('li');
         li.innerHTML = inputNum;
-        if (hasNum(inputNum, oUl)) {;
-            if (positive) {
-                oUl.insertBefore(li, oUl.childNodes[0]);
-            }
-            else {
-                oUl.appendChild(li);
-            }
+        p.innerHTML = '';
+        if (positive) {
+            oUl.insertBefore(li, oUl.childNodes[0]);
         }
         else {
-            alert("数字已存在!");
+            oUl.appendChild(li);
         }
+
     }
 
     // 删除数字
@@ -115,6 +127,7 @@
      */
     function delNum(positive) {
         if (oUl.childNodes.length) {
+            p.innerHTML = '';
             if (positive) {
                 oUl.removeChild(oUl.firstChild);
             }
@@ -128,7 +141,7 @@
     function hasNum(num, ele) {
         var child = ele.childNodes;
         for (var i = 0; i < child.length; i ++) {
-            if (child[i].innerHTML === num) return false; // 存在
+            if (child[i].innerHTML === num) return false; // 存在,注意判断逻辑无法用 !==
         }
         return true; // 不存在
     }
