@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task04</title>
+    <style>
+        body {
+            padding: 40px;
+        }
+        button {
+            margin-left: 15px;
+            background-color: #fff;
+            border-radius: 3px;
+        }
+        .main {
+            display: table;
+            margin: 0 auto;
+        }
+        #left-out {
+            margin-left: 60px;
+        }
+        ul {
+            padding: 0;
+        }
+        li {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 3px 5px;
+            /*width: 30px;*/
+            height: 30px;
+            background-color: red;
+            text-align: center;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <input type="text" placeholder="请输入数字，以逗号分隔！" size=30>
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+    <ul id="num"></ul>
+</div>
+<script type="text/javascript">
+    var input = document.getElementsByTagName('input')[0];
+    input.focus();
+
+    input.onchange = function (event) {
+        var ul = document.getElementById('num');
+        var ulChid = ul.childNodes;
+        var data = getData();
+
+        document.getElementById('left-in').onclick = leftIn;
+
+        document.getElementById('right-in').onclick = rightIn;
+
+        document.getElementById('left-out').onclick = function() {
+            ulChid.length >0 && ul.removeChild(ulChid[0]);
+        };
+
+        document.getElementById('right-out').onclick = function() {
+            ulChid.length >0 && ul.removeChild(ulChid[ulChid.length - 1]);
+
+
+        var oLi = ul.childNodes;
+        console.log(oLi);
+        for (var i = 0; i < oLi.length; i++) {
+            oLi[i].addEventListener('click', fn, false);
+        }
+
+        function fn() {
+            console.log(this);
+            this.style.display = none;
+        }
+    };
+
+        function getData(){
+            return event.target.value.replace(/\s+/g, '').split(',').filter(function(val) {
+                return !/\D+/.test(val) && val !== '';// 去除非数字和空元素
+            });
+        }
+
+        function leftIn() {
+            ul.innerHTML = '';
+            for (var i = 0; i < data.length; i++) {
+                var li = document.createElement('li');
+                li.innerHTML = data[i];
+                ul.appendChild(li);
+            }
+        }
+
+        function rightIn() {
+            ul.innerHTML = '';
+            for (var i = data.length - 1; i >= 0; i--) {
+                var li = document.createElement('li');
+                li.innerHTML = data[i];
+                ul.appendChild(li);
+            }
+        }
+
+
+
+    };
+
+</script>
+</body>
+</html>
