@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <style>
+        .test{
+            display: inline-block;
+            margin-right: 30px;
+            border: 2px solid black;
+            width: 350px;
+            height: 350px;
+        }
+        .test-inner {
+            border: 2px solid red;
+            width: 200px;
+            height: 200px;
+        }
+        ul {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div id="s1" class="test">Box1(绑定事件顺序：冒泡---捕获)
+    <div id="test1" class="test-inner">box1</div>
+</div>
+<div id="s2" class="test">Box2(绑定事件顺序：捕获---冒泡)
+    <div id="test2" class="test-inner">box2</div>
+</div>
+<p>打开console，分别点击Box1和Box2，显示顺序是注册顺序</p>
+<p>打开console，分别点击box1和box2(子元素)，显示顺序是先捕获后冒泡</p>
+<script>
+    var box1 = document.getElementById("s1");
+    //冒泡事件
+    box1.addEventListener("click", function(e){
+        console.log("box1外-冒泡事件");
+    }, false);
+    //捕获事件
+    box1.addEventListener("click", function(e){
+        console.log("box1外-捕获事件");
+    }, true);
+
+
+    var box2 = document.getElementById("s2");
+    //捕获事件
+    box2.addEventListener("click", function(e){
+        console.log("box2外-捕获事件");
+    }, true);
+    //冒泡事件
+    box2.addEventListener("click", function(e){
+        console.log("box2外-冒泡事件");
+    }, false);
+
+
+</script>
+</body>
+</html>
