@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task06</title>
+    <style>
+        body {
+            padding: 40px;
+        }
+        button {
+            margin: 15px 0 15px 15px;
+            background-color: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #main {
+            display: table;
+            margin: 0 auto;
+        }
+        #left-out {
+            margin-left: 60px;
+        }
+        ul {
+            padding: 10px;
+            /*height: 220px;*/
+        }
+        li {
+            display: inline-block;
+            margin-right: 3px;
+            padding: 3px 5px;
+            /*width: 40px;*/
+            height: 30px;
+            background-color: red;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+        p {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <textarea type="text" placeholder="请随便输入些什么！" style="display: block;margin: 10px auto;" rows="6" cols="25" autofocus></textarea>
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+    <button id="bubble-sort">排序</button>
+    <input type="text" size="22" style="display: block; height: 19px;">
+    <button id="check" style="float: right; margin-top: -25px">查询</button>
+    <ul id="num"></ul>
+    <p></p>
+</div>
+<script type="text/javascript">
+    var main = document.getElementById('main');
+    var input = document.getElementsByTagName('textarea')[0];
+    var oUl = document.getElementById('num');
+
+    var p = document.getElementsByTagName('p')[0]; // alert提示改为显示在网页上
+
+
+    // 事件代理
+    main.onclick = function () {
+        var e = arguments[0] || window.event;
+        var target = e.target || e.srcElement;
+        if (target.nodeName.toLowerCase() === 'button') {
+            if (target.id === 'left-in') {
+                addNum(true);
+            }
+            if (target.id === 'right-in') {
+                addNum(false);
+            }
+            if (target.id === 'left-out') {
+                delNum(true);
+            }
+            if (target.id === 'right-out') {
+                delNum(false);
+            }
+            if (target.id === 'bubble-sort') {
+                bubbleSort();
+            }
+            if (target.id === 'check') {
+                check();
+            }
+        }
+        else if (target.nodeName.toLowerCase() === 'li') {
+            oUl.removeChild(target);
+        }
+    };
+
+    // 查询函数
+    function check() {
+        var oLi = oUl.getElementsByTagName('li');
+        var strArr = [];
+        var value = document.getElementsByTagName('input')[0].value;
+        var reg = new RegExp(value);
+        for (var i = 0; i < oLi.length; i++) {
+            oLi[i].style.color = "black";
+            if (value && reg.test(oLi[i].innerHTML)) {
+                oLi[i].style.color = "white";
+            }
+        }
+    }
+
+    //冒泡排序
+    function bubbleSort() {
+        var oLi = oUl.getElementsByTagName('li');
+        var len = oLi.length;
+        var heightArr = []; // 高度集合
+        for (var n = 0 ; n < len; n ++) {
+            heightArr.push(parseInt(oLi[n].style.height, 10));
+        }
+
+        // 冒泡排序
+        for (var i = 0; i < len - 1; i++) {
+            for (var j = 0; j < len - 1 - i; j++) {
+                if (heightArr[j] > heightArr[j + 1]) {
+                    var temp = heightArr[j];
+                    heightArr[j] = heightArr[j + 1];
+                    heightArr[j + 1] = temp;
+                }
+            }
+        }
+
+        var m = 0;
+        var timer = setInterval(function(){
+            if (m < heightArr.length) {
+                oLi[m].style.height = heightArr[m] + 'px';
+                m++;
+            }
+            else {
+                clearInterval(timer);
+            }
+        }, 100);
+
+    }
+
+
+    // 增加数字，根据positive的值判断left和right
+    function addNum(positive) {
+        var inputNum = input.value.split(/\s+|,|，|　|\n|、|。/); // 拆分输入
+        inputNum = inputNum.filter(function(val) {
+            return val !== '';
+        });
+        if (!inputNum) return false;
+
+        var li;
+        if (positive) {
+            for (var i = inputNum.length - 1; i >= 0; i--) {
+                li = document.createElement('li');
+                li.innerHTML = inputNum[i];
+                p.innerHTML = '';
+                oUl.insertBefore(li, oUl.childNodes[0]);
+            }
+        }
+        else {
+            for (var j = 0; j < inputNum.length; j++) {
+                li = document.createElement('li');
+                li.innerHTML = inputNum[j];
+                p.innerHTML = '';
+                oUl.appendChild(li);
+            }
+        }
+
+        // input.value = '';
+    }
+
+    // 删除数字
+    /**
+     * 删除数字
+     * @param  {boolean} positive 确定从左右删除
+     * @return {[type]}          [description]
+     */
+    function delNum(positive) {
+        if (oUl.childNodes.length) {
+            p.innerHTML = '';
+            if (positive) {
+                oUl.removeChild(oUl.firstChild);
+            }
+            else {
+                oUl.removeChild(oUl.lastChild);
+            }
+        }
+    }
+
+    // 判断输入是否为数字
+    function isNum(data) {
+        var bool = /^[\d\.]+$/.test(data);// 纯数字或小数
+        if (bool) {
+            return true;
+        }
+        else if (!data){
+            // alert("输入不能为空!");
+            p.innerHTML = '输入不能为空!';
+            return false;
+        }
+        else {
+            // alert("请输入纯数字!");
+            p.innerHTML = '请输入纯数字!';
+            return false;
+        }
+    }
+
+    // 判断数字是否存在，存在就不加入
+    function hasNum(num, ele) {
+        var child = ele.childNodes;
+        for (var i = 0; i < child.length; i ++) {
+            if (child[i].style.height === num + 'px') return false; // 存在,注意判断逻辑无法用 !==
+        }
+        return true; // 不存在
+    }
+
+    // 回车事件
+/*    document.onkeydown = function(ev) {
+        var event = ev || window.event;
+
+        if (event.keyCode === 13) addNum(false);
+    };*/
+
+    // 随机生成height不同的li
+/*    for (var i = 0; i < 20; i++) {
+        var li = document.createElement('li');
+        var h = Math.floor(Math.random() * 91 + 10);
+        li.style.height = h + 'px';
+        oUl.appendChild(li);
+    }*/
+</script>
+</body>
+</html>
