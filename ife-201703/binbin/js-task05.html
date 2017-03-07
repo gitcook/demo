@@ -21,7 +21,8 @@
             margin-left: 60px;
         }
         ul {
-            padding: 0;
+            padding: 10px;
+            /*height: 220px;*/
         }
         li {
             display: inline-block;
@@ -58,6 +59,13 @@
     var p = document.getElementsByTagName('p')[0]; // alert提示改为显示在网页上
     input.focus();
 
+    for (var i = 0; i < 20; i++) {
+        var li = document.createElement('li');
+        var h = Math.floor(Math.random() * 91 + 10);
+        li.style.height = h + 'px';
+        oUl.appendChild(li);
+    }
+
     // 事件代理
     main.onclick = function () {
         var e = arguments[0] || window.event;
@@ -90,7 +98,7 @@
         var len = oLi.length;
         var heightArr = []; // 高度集合
         for (var n = 0 ; n < len; n ++) {
-            heightArr.push(oLi[n].style.height);
+            heightArr.push(parseInt(oLi[n].style.height, 10));
         }
 
         // 冒泡排序
@@ -104,9 +112,19 @@
             }
         }
 
-        for (var m = 0; m < len; m++) {
+        var m = 0;
+        var timer = setInterval(function(){
+            if (m < heightArr.length) {
+                oLi[m].style.height = heightArr[m] + 'px';
+                m++;
+            }
+            else {
+                clearInterval(timer);
+            }
+        }, 100);
+/*        for (var m = 0; m < len; m++) {
             oLi[m].style.height = heightArr[m];
-        }
+        }*/
     }
 
     // 判断输入是否为数字
