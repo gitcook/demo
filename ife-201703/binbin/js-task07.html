@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task07</title>
+    <style>
+    #root {
+        width: 95%;
+        height: 180px;
+        background-color: #fff;
+    }
+    div {
+        display: flex;
+        margin: 1%;
+        padding: 1.5%;
+        width: 48%;
+        height: 85%;
+        text-align: center;
+        border: 1px solid black;
+        background-color: #fff;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    button {
+        margin-right: 10px;
+        padding: 0;
+        width: 50px;
+        height: 25px;
+        border-radius: 3px;
+        text-align: center;
+        line-height: 21px;
+    }
+    #button {
+        margin: 0 auto;
+        width: 220px;
+        border: none;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+<div id="root">
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<div id="button">
+    <button id="pre">前序</button>
+    <button id="in">中序</button>
+    <button id="nex">后序</button>
+</div>
+<script>
+    var root = document.getElementById('root');
+    var arr = [];
+    var last;
+    var flag = true;
+
+    document.getElementById('button').onclick = function(ev) {
+        var event = ev || window.event;
+        var target = event.target || event.srcElement;
+        if (target.id === 'pre') {
+            if (flag) {
+                reset();
+                preOrder(root);
+                play(arr);
+            }
+        }
+        if (target.id === 'in') {
+            if (flag) {
+                reset();
+                inOrder(root);
+                play(arr);
+            }
+        }
+        if (target.id === 'nex') {
+            if (flag) {
+                reset();
+                postOrder(root);
+                play(arr);
+            }
+        }
+    };
+
+    function reset() {
+        flag = false;
+        arr = [];
+        if (last) {
+            last.style.backgroundColor = '#fff';
+        }
+    }
+
+    function play(arr) {
+        for(var i = 0; i < arr.length; i++) {
+            (function(i){
+                setTimeout(function() {
+                    if (last) {
+                        last.style.backgroundColor = '#fff';
+                    }
+                    if (i === arr.length - 1) {
+                        flag = true;
+                    }
+                    arr[i].style.backgroundColor = 'red';
+                    last = arr[i];
+                }, 500 * i);
+            })(i);
+        }
+    }
+
+    //先序(根左右) firstElementChild是一个只读属性
+    function preOrder(node) {
+        if (node !== null) {
+            arr.push(node);
+            preOrder(node.firstElementChild);
+            preOrder(node.lastElementChild);
+        }
+    }
+
+    //中序(左根右)
+    function inOrder(node) {
+        if (node !== null) {
+            inOrder(node.firstElementChild);
+            arr.push(node);
+            inOrder(node.lastElementChild);
+        }
+    }
+
+    //后序(左右根)
+    function postOrder(node) {
+        if (node !== null) {
+            postOrder(node.firstElementChild);
+            postOrder(node.lastElementChild);
+            arr.push(node);
+        }
+    }
+
+
+</script>
+</body>
+</html>
