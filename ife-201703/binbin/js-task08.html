@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IFE JavaScript Task07</title>
+    <title>IFE JavaScript Task08</title>
     <style>
     #root {
         width: 95%;
@@ -126,10 +126,14 @@
 
     //先序(根左右) firstElementChild是一个只读属性
     function preOrder(node) {
+        var child = node.getElementsByTagName('div');
         if (node) {
             arr.push(node);
-            preOrder(node.firstElementChild);
-            preOrder(node.lastElementChild);
+            for (var i = 0; i < child.length; i++) {
+                preOrder(child[i]);
+                // preOrder(node.firstElementChild);
+                // preOrder(node.lastElementChild);
+            }
         }
     }
 
