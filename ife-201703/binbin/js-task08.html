@@ -126,16 +126,27 @@
 
     //先序(根左右) firstElementChild是一个只读属性
     function preOrder(node) {
-        var child = node.getElementsByTagName('div');
-        if (node) {
-            arr.push(node);
-            for (var i = 0; i < child.length; i++) {
-                preOrder(child[i]);
-                // preOrder(node.firstElementChild);
-                // preOrder(node.lastElementChild);
+        // 递归多叉树
+        if (!node || !node.children.length) return;
+
+        arr.push(node);
+        var len = node.children.length;
+        for (var i = 0; i < len; i++) {
+            arr.push(node.children[i]);
+            var childs = node.children[i];
+            if (childs) {
+                preOrder(childs);
             }
         }
-    }
+
+        // 递归二叉树
+/*        if (node) {
+            var child = node.getElementsByTagName('div');
+            arr.push(node);
+            preOrder(node.firstElementChild);
+            preOrder(node.lastElementChild);
+        }
+*/    }
 
     //中序(左根右)
     function inOrder(node) {
@@ -154,7 +165,6 @@
             arr.push(node);
         }
     }
-
 
 </script>
 </body>
