@@ -25,7 +25,7 @@
     button {
         margin-right: 10px;
         padding: 0;
-        width: 50px;
+        /*width: 50px;*/
         height: 25px;
         border-radius: 3px;
         text-align: center;
@@ -34,7 +34,8 @@
     #button {
         display: block;
         margin: 0 auto;
-        /*width: 220px;*/
+        padding: 10px;
+        width: 500px;
         border: none;
         text-align: center;
     }
@@ -81,11 +82,11 @@
     </div>
 </div>
 <div id="button">
-    <button id="pre">前序</button>
+    <button id="pre">递归遍历</button>
+    <button id="nex">广度遍历</button>
     <input type="text" placeholder="输入些什么！" size="20">
-    <button id="check">查询</button>
-    <!-- <button id="in">中序</button> -->
-    <!-- <button id="nex">后序</button> -->
+    <button id="check">递归查询</button>
+    <button id="in">广度查询</button>
 </div>
 <p></p>
 <script>
@@ -101,28 +102,28 @@
         if (target.id === 'pre') {
             if (flag) {
                 reset();
-                preOrder(root);
+                rec(root);
                 play(arr);
             }
         }
         if (target.id === 'in') {
-            if (flag) {
+            if (flag && input.value) {
                 reset();
-                inOrder(root);
-                play(arr);
+                sco(root);
+                check(arr);
             }
         }
         if (target.id === 'nex') {
             if (flag) {
                 reset();
-                postOrder(root);
+                sco(root);
                 play(arr);
             }
         }
         if (target.id === 'check') {
             if (flag && input.value) {
                 reset();
-                preOrder(root);
+                rec(root);
                 check(arr);
             }
         }
@@ -181,8 +182,8 @@
         }
     }
 
-    //先序(根左右) firstElementChild是一个只读属性
-    function preOrder(node) {
+    // 递归
+    function rec(node) {
         if(node && node.nodeType === 1){
             // console.log(node.tagName);
             arr.push(node);
@@ -192,37 +193,49 @@
             node = childNodes[i];
             if(node.nodeType === 1){
                 //递归先序遍历子节点
-                preOrder(node);
+                rec(node);
             }
         }
+    }
 
-        // 递归二叉树
-/*        if (node) {
-            var child = node.getElementsByTagName('div');
-            arr.push(node);
-            preOrder(node.firstElementChild);
-            preOrder(node.lastElementChild);
+    //递归另一种
+/*    function walkDom(node, callback) {
+        if (!node) { //判断node是否为null
+            return
         }
-*/    }
+        callback(node) //将node自身传入callback
+        node = node.firstElementChild //改变node为其子元素节点
+        while (node) {
+            walkDom(node, callback) //如果存在子元素，则递归调用walkDom
+            node = node.nextElementSibling //从头到尾遍历元素节点
+        }
+    }*/
 
-    //中序(左根右)
-    function inOrder(node) {
+    //广度
+    function sco(node) {
         if (node) {
-            inOrder(node.firstElementChild);
-            arr.push(node);
-            inOrder(node.lastElementChild);
+            var stack = [node];
+            var target;
+            while(stack.length) {
+                target = stack.shift();
+                arr.push(target);
+                Array.prototype.push.apply(stack, target.children);// 直接stack.push(target.children)会报错,target.children 是一个数组
+            }
         }
     }
 
-    //后序(左右根)
-    function postOrder(node) {
+    //深度(递归)
+    function dep(node) {
         if (node) {
-            postOrder(node.firstElementChild);
-            postOrder(node.lastElementChild);
-            arr.push(node);
+            var stack = [node];
+            var target;
+            while(stack.length) {
+                target = stack.shift();
+                arr.push(target);
+                Array.prototype.unshift.apply(stack, target.children);
+            }
         }
     }
-
 </script>
 </body>
 </html>
