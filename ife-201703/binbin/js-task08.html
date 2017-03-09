@@ -10,10 +10,10 @@
         background-color: #fff;
     }
     div {
-        display: flex;
-        margin: 1%;
-        padding: 1.5%;
-        width: 48%;
+        display: table-cell;
+        /*margin: 1%;*/
+        padding: 1.5% 16px 2%;
+        width: 40%;
         height: 85%;
         text-align: center;
         border: 1px solid black;
@@ -32,43 +32,65 @@
         line-height: 21px;
     }
     #button {
+        display: block;
         margin: 0 auto;
-        width: 220px;
+        /*width: 220px;*/
         border: none;
+        text-align: center;
+    }
+    p {
+        color: red;
         text-align: center;
     }
     </style>
 </head>
 <body>
 <div id="root">
-    <div>
-        <div>
-            <div></div>
-            <div></div>
+    <div>world
+        <div>country
+            <div>china</div>
+            <div>usa</div>
+            <div>uk</div>
         </div>
-        <div>
-            <div></div>
-            <div></div>
+        <div>language
+            <div>zh</div>
+            <div>en</div>
+            <div>jp</div>
+            <div>ko</div>
+        </div>
+        <div>something
+            <div>code</div>
+            <div>php</div>
+        </div>
+    </div>
+    <div>color
+        <div>white
+            <div>black</div>
+            <div>red</div>
+            <div>blue</div>
+            <div>pink</div>
+        </div>
+        <div>java
+            <div>python</div>
+            <div>ruby</div>
+            <div>c</div>
         </div>
     </div>
     <div>
-        <div>
-            <div></div>
-            <div></div>
-        </div>
-        <div>
-            <div></div>
-            <div></div>
-        </div>
+        linux
     </div>
 </div>
 <div id="button">
     <button id="pre">前序</button>
-    <button id="in">中序</button>
-    <button id="nex">后序</button>
+    <input type="text" placeholder="输入些什么！" size="20">
+    <button id="check">查询</button>
+    <!-- <button id="in">中序</button> -->
+    <!-- <button id="nex">后序</button> -->
 </div>
+<p></p>
 <script>
     var root = document.getElementById('root');
+    var input = document.getElementsByTagName('input')[0];
     var arr = [];
     var last;
     var flag = true;
@@ -97,6 +119,13 @@
                 play(arr);
             }
         }
+        if (target.id === 'check') {
+            if (flag && input.value) {
+                reset();
+                preOrder(root);
+                check(arr);
+            }
+        }
     };
 
     function reset() {
@@ -105,6 +134,33 @@
         if (last) {
             last.style.backgroundColor = '#fff';
         }
+    }
+
+    function check(arr) {
+        var value = input.value;
+        var timer = setInterval(function() {
+            if (last) {
+                last.style.backgroundColor = '#fff';
+            }
+
+            var reg = new RegExp(value);
+            if (reg.test(arr[0].childNodes[0].nodeValue)) {
+                clearInterval(timer);
+                last = arr[0];
+                arr[0].style.backgroundColor = 'blue';
+                flag = true;
+                return;
+            }
+
+            if (!arr.length) {
+                clearInterval(timer);
+                flag = true;
+                return;
+            }
+
+            last = arr.shift();
+            last.style.backgroundColor = 'red';
+            }, 500);
     }
 
     function play(arr) {
@@ -117,6 +173,7 @@
                     if (i === arr.length - 1) {
                         flag = true;
                     }
+
                     arr[i].style.backgroundColor = 'red';
                     last = arr[i];
                 }, 500 * i);
@@ -126,16 +183,16 @@
 
     //先序(根左右) firstElementChild是一个只读属性
     function preOrder(node) {
-        // 递归多叉树
-        if (!node || !node.children.length) return;
-
-        arr.push(node);
-        var len = node.children.length;
-        for (var i = 0; i < len; i++) {
-            arr.push(node.children[i]);
-            var childs = node.children[i];
-            if (childs) {
-                preOrder(childs);
+        if(node && node.nodeType === 1){
+            // console.log(node.tagName);
+            arr.push(node);
+        }
+        var i = 0, childNodes = node.childNodes;
+        for(; i < childNodes.length ; i++){
+            node = childNodes[i];
+            if(node.nodeType === 1){
+                //递归先序遍历子节点
+                preOrder(node);
             }
         }
 
