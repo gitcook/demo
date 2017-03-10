@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>IFE JavaScript Task09</title>
+    <style>
+        .header {
+            display: block;
+            margin: 15px auto;
+            width: 800px;
+            border: none;
+            text-align: center;
+        }
+        button {
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        #root {
+            width: 95%;
+            height: 180px;
+            background-color: #fff;
+        }
+        div {
+            display: table-cell;
+            /*margin: 1%;*/
+            padding: 1.5% 16px 2%;
+            width: 40%;
+            height: 85%;
+            text-align: center;
+            border: 1px solid black;
+            background-color: #fff;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        button {
+            margin-right: 10px;
+            padding: 0;
+            /*width: 50px;*/
+            height: 25px;
+            border-radius: 3px;
+            text-align: center;
+            line-height: 21px;
+        }
+    </style>
+</head>
+<body>
+<div class="header" id="btn">
+    <input type="text" size="25" placeholder="输入节点内容!" autofocus="autofocus">
+    <button id="addElement">添加</button>
+    <button id="delElement">删除</button>
+</div>
+<div id="root">
+    <div>world
+        <div>country
+            <div>china</div>
+            <div>usa</div>
+            <div>uk</div>
+        </div>
+        <div>language
+            <div>zh</div>
+            <div>en</div>
+            <div>jp</div>
+            <div>ko</div>
+        </div>
+        <div>something
+            <div>code</div>
+            <div>php</div>
+        </div>
+    </div>
+    <div>color
+        <div>white
+            <div>black</div>
+            <div>red</div>
+            <div>blue</div>
+            <div>pink</div>
+        </div>
+        <div>java
+            <div>python</div>
+            <div>ruby</div>
+            <div>c</div>
+        </div>
+    </div>
+    <div>
+        linux
+    </div>
+</div>
+<script>
+    var root = document.getElementById('root');
+    var arr;
+
+    // 递归获取所有div
+    function rec(node) {
+        if(node && node.nodeType === 1){
+            arr.push(node);
+        }
+        var i = 0, childNodes = node.childNodes;
+        for(; i < childNodes.length ; i++){
+            node = childNodes[i];
+            if(node.nodeType === 1){
+                //递归先序遍历子节点
+                rec(node);
+            }
+        }
+    }
+
+    function reset() {
+        arr = [];
+        rec(root);
+    }
+
+    document.onclick = function(ev) {
+        var e = ev || window.event;
+        var target = e.target || e.srcElement;
+
+        reset();
+
+        if (target.nodeName.toLowerCase() === 'div') {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].style.backgroundColor = '#fff';
+            }
+
+            target.style.backgroundColor = 'red';
+        }
+
+        if (target.id === 'delElement') {
+            for (var j = 0; j < arr.length; j++) {
+                if (arr[j].style.backgroundColor === 'red') {
+                    arr[j].parentNode.removeChild(arr[j]);
+                }
+            }
+        }
+
+        if (target.id === 'addElement') {
+            var value = document.getElementsByTagName('input')[0].value;
+            for (var m = 0; m < arr.length; m++) {
+                if (arr[m].style.backgroundColor === 'red') {
+                    var div = document.createElement('div');
+                    div.innerHTML = value;
+                    arr[m].appendChild(div);
+                }
+            }
+        }
+    };
+</script>
+</body>
+</html>
