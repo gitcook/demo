@@ -7,6 +7,7 @@
         .header {
             display: block;
             margin: 15px auto;
+            padding: 10px;
             width: 800px;
             border: none;
             text-align: center;
@@ -45,11 +46,11 @@
     </style>
 </head>
 <body>
-<div class="header" id="btn">
+<header class="header" id="btn">
     <input type="text" size="25" placeholder="输入节点内容!" autofocus="autofocus">
     <button id="addElement">添加</button>
     <button id="delElement">删除</button>
-</div>
+</header>
 <div id="root">
     <div>world
         <div>country
@@ -133,6 +134,7 @@
 
         if (target.id === 'addElement') {
             var value = document.getElementsByTagName('input')[0].value;
+            if (!value) return;
             for (var m = 0; m < arr.length; m++) {
                 if (arr[m].style.backgroundColor === 'red') {
                     var div = document.createElement('div');
