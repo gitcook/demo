@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>练习1-表单检验</title>
+    <style>
+        #main {
+            width: 700px;
+            margin: 10px auto;
+            padding-top: 20px;
+            text-align: right;
+        }
+        input {
+            border: 0;
+            outline: none;
+            width: 600px;
+            background-color: #fff;
+        }
+        .a-input {
+            display: inline-block;
+            margin-left: 15px;
+            padding-left: 10px;
+            border: 2px solid grey;
+            border-radius: 3px;
+            height: 32px;
+        }
+        .err-mess{
+            padding-left: 85px;
+            text-align: left;
+            line-height: 20px;
+        }
+        span {
+            display: block;
+            margin: 7px 0;
+            height: 20px;
+            color: red;
+            font-size: 14px;
+            text-align: left;
+        }
+        p {
+            margin: 0;
+            line-height: 32px;
+        }
+        button {
+            border: 1px solid #2f64de;
+            border-radius: 3px;
+            width: 65px;
+            height: 28px;
+            line-height: 28px;
+            background-color: #2F64DE;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <p class="name">
+        <label for="name">名称</label>
+        <span class="a-input">
+            <input type="text" id="name">
+        </span>
+        <span id="nameTips" class="err-mess"></span>
+    </p>
+    <p class="passwd">
+        <label for="password">密码</label>
+        <span class="a-input">
+            <input type="password" id="password">
+        </span>
+        <span id="passTips" class="err-mess"></span>
+    </p>
+    <p class="repassswd">
+        <label for="repassword">确认密码</label>
+        <span class="a-input">
+            <input type="password" id="repassword">
+        </span>
+        <span id="repassTips" class="err-mess"></span>
+    </p>
+    <p class="tel">
+        <label for="tel">电话</label>
+        <span class="a-input">
+            <input type="tel" id="tel" maxlength="11">
+        </span>
+        <span id="telTips" class="err-mess"></span>
+    </p>
+    <p class="email">
+        <label for="email">邮箱</label>
+        <span class="a-input">
+            <input type="email" id="email">
+        </span>
+        <span id="emailTips" class="err-mess"></span>
+    </p>
+    <button id="btn">提交</button>
+</div>
+<script>
+    var $ = function(id) {
+        return document.getElementById(id);
+    };
+
+    addEventHandler($('main'), 'focus', checkFocus, true);
+    addEventHandler($('main'), 'blur', checkBlur, true);
+
+    // 获得焦点(捕获)
+    function checkFocus(ev) {
+        var e = ev || window.event;
+        var t = e.target || e.srcElement;
+
+        if (t.nodeName.toLowerCase() === 'input') {
+            t.parentNode.style.border = '2px solid black';
+            t.parentNode.nextElementSibling.style.color = 'grey';
+
+            switch (t.id) {
+                case 'name':
+                    t.parentNode.nextElementSibling.innerHTML = '字符长度需为4-16!';
+                    break;
+
+                case 'password':
+                    t.parentNode.nextElementSibling.innerHTML = '长度至少为6!';
+                    break;
+
+                case 'repassword':
+                    t.parentNode.nextElementSibling.innerHTML = '请保持一致!';
+                    break;
+
+                case 'tel':
+                    t.parentNode.nextElementSibling.innerHTML = '请输入手机号码!';
+                    break;
+
+                default:
+                    t.parentNode.nextElementSibling.innerHTML = '请输入邮箱!';
+            }
+        }
+    }
+
+    // 失去焦点
+    function checkBlur(ev) {
+        var e = ev || window.event;
+        var t = e.target || e.srcElement;
+
+        if (t.nodeName.toLowerCase() === 'input') {
+            var currentNode = t;
+            switch (t.id) {
+                case 'name':
+                    checkName(currentNode);
+                    break;
+
+                case 'password':
+                    t.parentNode.nextElementSibling.innerHTML = '长度至少为6!';
+                    break;
+
+                case 'repassword':
+                    t.parentNode.nextElementSibling.innerHTML = '请保持一致!';
+                    break;
+
+                case 'tel':
+                    t.parentNode.nextElementSibling.innerHTML = '请输入手机号码!';
+                    break;
+
+                default:
+                    checkEmail(currentNode);
+            }
+        }
+    }
+
+    // name格式检测
+    function checkName(t) {
+        if (!t.value) {
+            $('nameTips').innerHTML = '输入不能为空!';
+            $('nameTips').style.color = '#FC0005';
+            t.parentNode.style.border = '2px solid red';
+        }
+        else if (countLength(t.value) < 4 || countLength(t.value) > 16) {
+            $('nameTips').innerHTML = '字符长度不为4-16!';
+            $('nameTips').style.color = '#FC0005';
+            t.parentNode.style.border = '2px solid red';
+        }
+        else {
+            $('nameTips').innerHTML = '格式正确!';
+        }
+    }
+
+    function countLength(str) {
+        var count = 0;
+        for (var i = 0; i < str.length; i++) {
+            var code = str[i].charCodeAt(); // 转换成ASCII
+            if (code >=0 && code <= 128) {
+                count++;
+            }
+            else {
+                count += 2;
+            }
+        }
+        return count;
+    }
+
+    // email格式检测
+    function checkEmail(t) {
+        if (!t.value) {
+            $('emailTips').innerHTML = 'email不能为空!';
+            $('emailTips').style.color = 'red';
+            t.parentNode.style.border = '2px solid red';
+        }
+        else if (!/^[\w\d]+@[\w\d]+(\.[\w]{2,3})+$/.test(t.value)) {
+            $('emailTips').innerHTML = 'email格式错误!';
+            $('emailTips').style.color = 'red';
+            t.parentNode.style.border = '2px solid red';
+        }
+        else {
+            $('emailTips').innerHTML = 'email格式正确!';
+        }
+    }
+
+    function addEventHandler(element, event, listener, capture) {
+        capture = capture || false;
+        if (element.addEventListener) {
+            element.addEventListener(event, listener, capture);
+        }
+        else if (element.attachEvent) {
+            element.attachEvent("on" + event, listener);
+        }
+        else {
+            element['on' + event] = listener;
+        }
+    }
+
+    // input 失去焦点
+    // addEventHandler($('email'), '')
+</script>
+</body>
+</html>
