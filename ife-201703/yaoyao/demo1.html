@@ -46,10 +46,11 @@
         $('emailTips').innerHTML = '';
         var e = ev || window.event;
         var value = e.target.value || e.srcElement.value;
-        var posAt = value.indexOf('@');
-        var posDot = value.lastIndexOf('.');
-        if ( posAt< 1 || posDot - posAt < 2) {
-            $('emailTips').innerHTML = 'email地址错误!';
+        if (!value) {
+            $('emailTips').innerHTML = 'email不能为空!';
+        }
+        else if (!/^[\w\d]+@[\w\d]+(\.[\w]{2,3})+$/.test(value)) {
+            $('emailTips').innerHTML = 'email格式错误!';
         }
     }
 
