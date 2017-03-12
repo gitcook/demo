@@ -98,8 +98,8 @@
     };
 
     // 代理
-    addEventHandler($('main'), 'focus', checkFocus, true);
-    addEventHandler($('main'), 'blur', checkBlur, true);
+    $('main').addEventListener('focus', checkFocus, true);
+    $('main').addEventListener('blur', checkBlur, true);
 
     $('btn').onclick = function() {
         checkName($('name'));
@@ -269,21 +269,6 @@
         }
     }
 
-    function addEventHandler(element, event, listener, capture) {
-        capture = capture || false;
-        if (element.addEventListener) {
-            element.addEventListener(event, listener, capture);
-        }
-        else if (element.attachEvent) {
-            element.attachEvent("on" + event, listener);
-        }
-        else {
-            element['on' + event] = listener;
-        }
-    }
-
-    // input 失去焦点
-    // addEventHandler($('email'), '')
 </script>
 </body>
 </html>
