@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单联动</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main {
+            margin: 10px auto;
+            width: 800px;
+            text-align: center;
+        }
+        .radio label {
+            display: inline-block;
+            padding: 5px 30px;
+        }
+        #in {
+            margin: 20px 0;
+        }
+        #out {
+            display: none;
+            margin-top: 20px;
+        }
+/*         #out input {
+    display: inline-block;
+    padding: 5px;
+    border: none;
+    outline: none;
+    height: 20px;
+    width: 310px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+#out span {
+    display: inline-block;
+    margin-left: 15px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    height: 40px;
+    width: auto;
+    line-height: 40px;
+} */
+        .form-control {
+            display: inline-block;
+            margin-left: 20px;
+            width: 200px;
+        }
+        #city {
+            width: 90px;
+        }
+        #company {
+            width: 310px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="radio">
+        <label><input type="radio" value="在校生" id="in-school" name="choose" checked="checked">在校生</label>
+        <label><input type="radio" value="非在校生" id="out-school" name="choose">非在校生</label>
+    </div>
+    <div id="in">
+        <label for="city">学校</label>
+        <select name="cityName" id="city" class="form-control">
+        </select>
+        <select name="schoolName" id="school" class="form-control">
+        </select>
+    </div>
+    <div id="out" class="form-group">
+        <label for="company">就业单位</label>
+        <span>
+            <input type="text" id="company" class="form-control">
+        </span>
+    </div>
+</div>
+<script>
+    var arr = [
+        {
+            city: '北京',
+            school: ['北京大学', '清华大学', '北京外国语大学', '北京师范大学']
+        },
+        {
+            city: '上海',
+            school: ['复旦大学', '上海电影学院', '上海科技大学', '上海大学']
+        },
+        {
+            city: '广州',
+            school: ['中山大学', '暨南大学', '华南理工大学'],
+        }
+    ];
+
+    var city = document.getElementById('city');
+    var school = document.getElementById('school');
+
+    (function showCity() {
+        // 城市
+        for (var i = 0; i < arr.length; i++) {
+            var op = document.createElement('option');
+            op.innerHTML = arr[i].city;
+            city.appendChild(op);
+        }
+
+        //第一项学校
+        for (var j = 0; j < arr[0].school.length; j++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = arr[0].school[j];
+            school.appendChild(opt);
+        }
+    })();
+
+    city.onchange = function() {
+        var index = city.selectedIndex;
+        var selectedValue = city.options[index].innerHTML;
+
+        school.innerHTML = '';
+
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].city === selectedValue) {
+                var currentSchool = arr[i].school;
+                for (var j = 0; j < currentSchool.length; j++) {
+                    var op = document.createElement('option');
+                    op.innerHTML = currentSchool[j];
+                    school.appendChild(op);
+                }
+            }
+        }
+    };
+
+    document.getElementById('in-school').onclick = function() {
+            document.getElementById('in').style.display = 'block';
+            document.getElementById('out').style.display = 'none';
+    };
+    document.getElementById('out-school').onclick = function() {
+        document.getElementById('in').style.display = 'none';
+        document.getElementById('out').style.display = 'block';
+    };
+
+</script>
+</body>
+</html>
