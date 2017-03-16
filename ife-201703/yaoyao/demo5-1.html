@@ -12,7 +12,6 @@
             position: relative;
             float: left;
             margin-right: 40px;
-            margin-left: 30%;
         }
         #row {
             float: left;
@@ -53,6 +52,10 @@
         }
         #btn {
             float: left;
+        }
+        .box {
+            display: inline-block;
+            margin-left: 40px;
         }
         a {
             display: inline-block;
@@ -224,14 +227,36 @@
     </table>
 </div>
 <div id="btn">
-    <p>
-        <a id="go">前进</a>
-    </p>
-    <p>
-        <a id="turnLeft">左转</a>
-        <a id="turnBack">转身</a>
-        <a id="turnRight">右转</a>
-    </p>
+    <div class="box">
+        <p>
+            <a id="go">前进</a>
+        </p>
+        <p>
+            <a id="turnLeft">左转</a>
+            <a id="turnBack">转身</a>
+            <a id="turnRight">右转</a>
+        </p>
+    </div>
+    <div class="box">
+        <p>
+            <a id="up">上移</a>
+        </p>
+        <p>
+            <a id="left">左移</a>
+            <a id="down">下移</a>
+            <a id="right">右移</a>
+        </p>
+    </div>
+    <div class="box">
+        <p>
+            <a id="moveUp">上转移</a>
+        </p>
+        <p>
+            <a id="moveLeft">左转移</a>
+            <a id="moveDown">下转移</a>
+            <a id="moveRight">右转移</a>
+        </p>
+    </div>
 </div>
 <script>
 function $(id) {
