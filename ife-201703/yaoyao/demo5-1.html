@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>听话的小方块-2</title>
+    <style>
+        div {
+            margin: 0;
+            padding: 0;
+        }
+        #main {
+            position: relative;
+            float: left;
+            margin-right: 40px;
+            margin-left: 30%;
+        }
+        #row {
+            float: left;
+        }
+        #row span {
+            display: block;
+        }
+        #line span {
+            display: table-cell;
+        }
+        span {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+        table {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+        td {
+            /*position: relative;*/
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+        #box {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: blue;
+        }
+        #box div {
+            width: 100%;
+            height: 10px;
+            background-color: red;
+        }
+        #btn {
+            float: left;
+        }
+        a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            background-color: #000;
+            color: #fff;
+            font: 20px/60px SimHei;
+            text-align: center;
+            cursor: pointer;
+        }
+        p {
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="box" style="left:160px; top:160px; transform:rotate(0deg)">
+        <div></div>
+    </div>
+    <div id="line">
+        <span></span>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>10</span>
+    </div>
+    <div id="row">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>10</span>
+    </div>
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div id="btn">
+    <p>
+        <a id="go">前进</a>
+    </p>
+    <p>
+        <a id="turnLeft">左转</a>
+        <a id="turnBack">转身</a>
+        <a id="turnRight">右转</a>
+    </p>
+</div>
+<script>
+function $(id) {
+    return document.getElementById(id);
+}
+</script>
+</body>
+</html>
