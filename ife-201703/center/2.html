@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第二种</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .out {
+        position: relative;
+        height: 800px;
+        border: 2px solid black;
+    }
+    .inner {
+        position: absolute;
+        overflow: auto;
+        margin: auto;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 50%;
+        height: 50%;
+        background-color: red;
+    }
+    </style>
+</head>
+<body>
+<div class="out">container
+    <div class="inner"></div>
+</div>
+<p>container父元素内水平垂直居中</p>
+</body>
+</html>

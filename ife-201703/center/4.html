@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第四种</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .out {
+        position: relative;
+        border: 2px solid black;
+        height: 600px;
+    }
+    .inner {
+        position: absolute;
+        overflow: auto;
+        padding: 40px;
+        margin: auto;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 60%;
+        height: 60%;
+        min-width: 200px;
+        max-width: 400px;
+        background-color: red;
+    }
+    </style>
+</head>
+<body>
+<div class="out">
+    <div class="inner">inner</div>
+</div>
+<p>绝对居中最大的优势应该就是对百分比形式的宽高支持的非常完美。甚至min-width/max-width 和min-height/max-height这些属性在自适应盒子内的表现也和预期很一致</p>
+</body>
+</html>
