@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>UI组件之表格排序</title>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         table {
             margin: 10px auto;
@@ -16,27 +17,128 @@
             text-align: center;
         }
         th {
+            position: relative;
             background-color: #000;
             color: #fff;
+        }
+        th i {
+            position: absolute;
+            right: 20px;
+            top: 22px;
         }
     </style>
 </head>
 <body>
-<table>
+<table id="tb">
     <tr>
         <th>姓名</th>
-        <th>数学</th>
-        <th>语文</th>
-        <th>英语</th>
-        <th>总分</th>
-    </tr>
-    <tr>
-        <td>小明</td>
-        <td>80</td>
-        <td>88</td>
-        <td>99</td>
-        <td>267</td>
+        <th>数学<i class="fa fa-sort" aria-hidden="true"></i></th>
+        <th>语文<i class="fa fa-sort" aria-hidden="true"></i></th>
+        <th>英语<i class="fa fa-sort" aria-hidden="true"></i></th>
+        <th>总分<i class="fa fa-sort" aria-hidden="true"></i></th>
     </tr>
 </table>
+<script>
+    function Person(name, x, y, z) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.num = x + y + z;
+    }
+
+    var xiaom = new Person('小明', 80, 90, 70),
+        xiaoh = new Person('小红', 90, 60, 90),
+        xiaol = new Person('小亮', 60, 100, 70);
+
+    var arr = [];
+    arr.push(xiaom, xiaoh, xiaol);
+
+    var table = document.getElementById('tb');
+    function show(tb) {
+        var tr, td, trArr;
+        for (var i = 0; i < arr.length; i ++) {
+            tr = document.createElement('tr');
+            trArr = Object.keys(arr[i]);
+            for (var j = 0 ; j < trArr.length; j ++) {
+                td = document.createElement('td');
+                td.innerHTML = arr[i][trArr[j]];
+                tr.appendChild(td);
+            }
+            tb.appendChild(tr);
+        }
+    }
+
+    show(table);
+
+    var oTh = table.getElementsByTagName('th');
+    var oTr = table.getElementsByTagName('tr');
+    for (var i = 1; i < oTh.length; i++) {
+        oTh[i].style.cursor = 'pointer';
+        oTh[i].onclick = function () {
+            for (var j = 1; j < oTr.length; j ++) {
+                oTr[j].innerHTML = '';
+            }
+
+            var index = getIndex(this);
+
+            switch (index) {
+                case 1:
+                    sort('x');
+                    break;
+
+                case 2:
+                    sort('y');
+                    break;
+
+                case 3:
+                    sort('z');
+                    break;
+
+                case 4:
+                    sort('num');
+                    break;
+            }
+
+        };
+    }
+
+    function sort(key) {
+        switch (key) {
+            case 'x':
+                arr.sort(function(a, b) {return a.x > b.x;});
+                show(table);
+                break;
+
+            case 'y':
+                arr.sort(function(a, b) {return a.y > b.y;});
+                show(table);
+                break;
+
+            case 'z':
+                arr.sort(function(a, b) {return a.z > b.z;});
+                show(table);
+                break;
+
+            case 'num':
+                arr.sort(function(a, b) {return a.num > b.num;});
+                show(table);
+                break;
+
+            default:
+                show(table);
+
+        }
+    }
+
+    function getIndex(element) {
+        var aBrother = element.parentNode.children;
+        for (var i = 0, len = aBrother.length; i < len; i++) {
+            if (aBrother[i] == element) {
+                return i;
+            }
+        }
+    }
+</script>
 </body>
 </html>
